@@ -3,9 +3,48 @@
 namespace Controllers;
 
 use Exception;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class Controller
-{    
+{
+    function checkForToken()
+    {
+        if (!isset($_SERVER["HTTP_AUTHORIZATION"])) {
+            $this->respondWithError(401, "Unauthorized");
+            return false;
+        }
+        try {
+            $header = $_SERVER["HTTP_AUTHORIZATION"];
+            $array = explode(" ", $header);
+            $jwt = $array[1];
+            $key = "thisismysecretthingy";
+            $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+            return $decoded;
+        } catch (Exception $e) {
+            $this->respondWithError(401, $e->getMessage());
+            return false;
+        }
+    }
+
+    function checkForAdmin()
+    {
+        if (!isset($_SERVER["HTTP_AUTHORIZATION"])) {
+            $this->respondWithError(401, "Unauthorized");
+            return false;
+        }
+        try {
+            $header = $_SERVER["HTTP_AUTHORIZATION"];
+            $array = explode(" ", $header);
+            $jwt = $array[1];
+            $key = "thisismysecretthingy";
+            $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+            return $decoded->data->admin;
+        } catch (Exception $e) {
+            $this->respondWithError(401, $e->getMessage());
+            return false;
+        }
+    }
 
     function respond($data)
     {
@@ -32,7 +71,7 @@ class Controller
 
         $object = new $className();
         foreach ($data as $key => $value) {
-            if(is_object($value)) {
+            if (is_object($value)) {
                 continue;
             }
             $object->{$key} = $value;
