@@ -3,8 +3,6 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Allow-Methods: *");
 
-error_reporting(0);
-ini_set("display_errors", 0);
 date_default_timezone_set('Europe/Amsterdam');
 
 require __DIR__ . '/../vendor/autoload.php';
