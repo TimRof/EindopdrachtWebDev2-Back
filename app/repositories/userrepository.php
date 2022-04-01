@@ -13,7 +13,7 @@ class UserRepository extends Repository
     function create($user)
     {
         $this->validate($user);
-        
+
         if (empty($this->errors)) {
             $password_hash = password_hash($user->password, PASSWORD_DEFAULT);
             $sql = 'INSERT INTO usersbasic (name, email, password_hash) VALUES (:name, :email, :password_hash)';
@@ -24,8 +24,7 @@ class UserRepository extends Repository
             $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
 
             return $stmt->execute();
-        }
-        else{
+        } else {
             return $this->errors;
         }
     }
@@ -69,17 +68,5 @@ class UserRepository extends Repository
         $stmt->execute();
 
         return $stmt->fetch();
-    }
-
-    // hash the password (currently uses bcrypt)
-    function hashPassword($password)
-    {
-        return password_hash($password, PASSWORD_DEFAULT);
-    }
-
-    // verify the password hash
-    function verifyPassword($input, $hash)
-    {
-        return password_verify($input, $hash);
     }
 }

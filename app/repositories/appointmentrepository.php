@@ -92,24 +92,6 @@ class AppointmentRepository extends Repository
         return $stmt->fetchAll();
     }
 
-    // function getOne($id)
-    // {
-    //     try {
-    //         $query = "SELECT product.*, category.name as category_name FROM product INNER JOIN category ON product.category_id = category.id WHERE product.id = :id";
-    //         $stmt = $this->connection->prepare($query);
-    //         $stmt->bindParam(':id', $id);
-    //         $stmt->execute();
-
-    //         $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    //         $row = $stmt->fetch();
-    //         $product = $this->rowToProduct($row);
-
-    //         return $product;
-    //     } catch (PDOException $e) {
-    //         echo $e;
-    //     }
-    // }
-
     function insert($type, $timeslot, $id)
     {
         try {
